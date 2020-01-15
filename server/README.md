@@ -1,6 +1,7 @@
 # Mern Stack boilerplate
 
-This App is made to be the template for most MERN stack application
+I've been building many MERN stack application recently. So I decide to build this boilerplate.
+This app could be used as a the template for most MERN stack applications.
 
 # App features
 
