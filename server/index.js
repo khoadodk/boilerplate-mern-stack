@@ -1,18 +1,18 @@
 const express = require('express');
 require('./config/db')();
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 const app = express();
-const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
 
 //----------Middlewares-------- ORDER is important
 //Parse JSON into object, similar to body-parser
 app.use(express.json({ extended: true }));
 app.use(cors());
-//store token in cookie
-app.use(cookieParser());
-//Route
-app.use('/api/users', userRoutes);
+//morgan will help to debug endpoint in the console.log
+app.use(morgan('dev'));
+//Routes
+app.use('/api', authRoutes);
 
 //heroku production environment setup
 if (process.env.NODE_ENV === 'production') {
