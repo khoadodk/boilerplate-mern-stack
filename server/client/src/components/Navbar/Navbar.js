@@ -47,11 +47,27 @@ const Navbar = ({ history }) => {
             </li>
           </>
         )}
-        {isAuth() && (
+
+        {isAuth() && isAuth().role === 'admin' && (
           <li className="nav-item">
-            <Link className="nav-link text-light">{isAuth().name}</Link>
+            <Link className="nav-link" style={isActive('/admin')} to="/admin">
+              {isAuth().name}
+            </Link>
           </li>
         )}
+
+        {isAuth() && isAuth().role === 'subscriber' && (
+          <li className="nav-item">
+            <Link
+              className="nav-link"
+              style={isActive('/private')}
+              to="/private"
+            >
+              {isAuth().name}
+            </Link>
+          </li>
+        )}
+
         {isAuth() && (
           <li className="nav-item">
             <Link

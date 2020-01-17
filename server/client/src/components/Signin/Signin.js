@@ -27,7 +27,7 @@ const Signin = () => {
       data: { email, password }
     })
       .then(response => {
-        console.log('SIGNUP SUCCESS', response);
+        console.log('SIGNIN SUCCESS', response);
         //Save the user in the localstorage and token in cookie
         authenticate(response, () => {
           setValues({
@@ -40,7 +40,7 @@ const Signin = () => {
         });
       })
       .catch(error => {
-        console.log('SIGNUP ERROR', error.response.data);
+        console.log('SIGNIN ERROR', error.response.data);
         setValues({ ...values, buttonText: 'Log in' });
         toast.error(error.response.data.error);
       });
