@@ -1,0 +1,87 @@
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
+const Signin = () => {
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+    buttonText: 'Log In'
+  });
+
+  const { email, password, buttonText } = values;
+
+  const handleChange = event => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const clickSubmit = event => {
+    event.preventDefault();
+    setValues({ ...values, buttonText: 'Logging In' });
+    axios({
+      method: 'POST',
+      url: `${process.env.REACT_APP_API}/signin`,
+      data: { email, password }
+    })
+      .then(response => {
+        console.log('SIGNUP SUCCESS', response);
+        //Save the user in the localstorage and token in cookie
+        setValues({
+          ...values,
+          email: '',
+          password: '',
+          buttonText: 'Submitted'
+        });
+        toast.success(`Hey ${response.data.user.name}. Welcome back!`);
+      })
+      .catch(error => {
+        console.log('SIGNUP ERROR', error.response.data);
+        setValues({ ...values, buttonText: 'Log in' });
+        toast.error(error.response.data.error);
+      });
+  };
+
+  const signupForm = () => (
+    <form>
+      <div className="form-group">
+        <label className="text-muted">Email</label>
+        <input
+          onChange={handleChange}
+          name="email"
+          value={email}
+          type="email"
+          className="form-control"
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="text-muted">Password</label>
+        <input
+          onChange={handleChange}
+          name="password"
+          value={password}
+          type="password"
+          className="form-control"
+        />
+      </div>
+
+      <div>
+        <button className="btn btn-primary float-right" onClick={clickSubmit}>
+          {buttonText}
+        </button>
+      </div>
+    </form>
+  );
+
+  return (
+    <div className="container w-50">
+      <ToastContainer />
+      <h1 className="p-3 text-center">Sign in</h1>
+      {signupForm()}
+    </div>
+  );
+};
+
+export default Signin;
