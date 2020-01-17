@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 
 //----------Middlewares-------- ORDER is important
 //Parse JSON into object, similar to body-parser
@@ -11,8 +12,10 @@ app.use(express.json({ extended: true }));
 app.use(cors());
 //morgan will help to debug endpoint in the console.log
 app.use(morgan('dev'));
+
 //Routes
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 //heroku production environment setup
 if (process.env.NODE_ENV === 'production') {

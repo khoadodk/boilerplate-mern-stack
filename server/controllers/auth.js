@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -16,6 +17,31 @@ where we grab that encoded jwt which contains user info to create the account
   if yes, generate token with expiry and sent to the client side
   the token is used to access protected routes
 */
+
+exports.adminMiddleware = (req, res, next) => {
+  User.findById({ _id: req.user._id }).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: 'User not found'
+      });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(400).json({
+        error: 'Admin resource. Access denied.'
+      });
+    }
+    //set user object in the name of profile
+    req.profile = user;
+    next();
+  });
+};
+
+//this middleware'll verify the token and return object as req.user
+//We could user req.user._id to find the user
+exports.requireSignin = expressJwt({
+  secret: process.env.JWT_SECRET
+});
 
 exports.signup = (req, res) => {
   const { name, email, password } = req.body;

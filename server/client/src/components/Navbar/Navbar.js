@@ -77,6 +77,7 @@ const Navbar = ({ history }) => {
                   history.push('/');
                 })
               }
+              to="/"
             >
               Sign Out
             </Link>

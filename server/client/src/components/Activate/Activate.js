@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,9 +19,10 @@ const Signup = ({ match }) => {
     //Decode the token and grab the name
     let { name } = jwt.decode(token);
     if (token) setValues({ ...values, name, token });
+    // eslint-disable-next-line
   }, []);
 
-  const { name, token, show } = values;
+  const { name, token } = values;
 
   const clickSubmit = event => {
     event.preventDefault();
