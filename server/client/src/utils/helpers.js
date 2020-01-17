@@ -1,5 +1,10 @@
 import cookie from 'js-cookie';
 
+/*
+store the user'info in localstorage 
+store the token in the cookie
+*/
+
 // set in cookie
 export const setCookie = (key, value) => {
   if (window !== 'undefined') {
@@ -54,4 +59,9 @@ export const isAuth = () => {
       }
     }
   }
+};
+export const signout = next => {
+  removeCookie('token');
+  removeLocalStorage('user');
+  next();
 };

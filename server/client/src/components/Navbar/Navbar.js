@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { isAuth, signout } from '../../utils/helpers';
 
 const Navbar = ({ history }) => {
   const isActive = path => {
@@ -24,16 +25,47 @@ const Navbar = ({ history }) => {
             Home
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/signin" className="nav-link" style={isActive('/signin')}>
-            Sign In
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/signup" className="nav-link" style={isActive('/signup')}>
-            Sign Up
-          </Link>
-        </li>
+        {!isAuth() && (
+          <>
+            <li className="nav-item">
+              <Link
+                to="/signin"
+                className="nav-link"
+                style={isActive('/signin')}
+              >
+                Log In
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/signup"
+                className="nav-link"
+                style={isActive('/signup')}
+              >
+                Sign Up
+              </Link>
+            </li>
+          </>
+        )}
+        {isAuth() && (
+          <li className="nav-item">
+            <Link className="nav-link text-light">{isAuth().name}</Link>
+          </li>
+        )}
+        {isAuth() && (
+          <li className="nav-item">
+            <Link
+              className="nav-link text-light"
+              onClick={() =>
+                signout(() => {
+                  history.push('/');
+                })
+              }
+            >
+              Sign Out
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

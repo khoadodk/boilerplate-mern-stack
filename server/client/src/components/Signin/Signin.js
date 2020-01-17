@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { authenticate, isAuth } from '../../utils/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -28,13 +29,15 @@ const Signin = () => {
       .then(response => {
         console.log('SIGNUP SUCCESS', response);
         //Save the user in the localstorage and token in cookie
-        setValues({
-          ...values,
-          email: '',
-          password: '',
-          buttonText: 'Submitted'
+        authenticate(response, () => {
+          setValues({
+            ...values,
+            email: '',
+            password: '',
+            buttonText: 'Submitted'
+          });
+          toast.success(`Hey ${response.data.user.name}. Welcome back!`);
         });
-        toast.success(`Hey ${response.data.user.name}. Welcome back!`);
       })
       .catch(error => {
         console.log('SIGNUP ERROR', error.response.data);
@@ -78,7 +81,8 @@ const Signin = () => {
   return (
     <div className="container w-50">
       <ToastContainer />
-      <h1 className="p-3 text-center">Sign in</h1>
+      {isAuth() ? <Redirect to="/" /> : null}
+      <h1 className="p-3 text-center">Log in</h1>
       {signupForm()}
     </div>
   );

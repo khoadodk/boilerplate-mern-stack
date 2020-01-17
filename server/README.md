@@ -8,5 +8,6 @@ This app could be used as a the template for most MERN stack applications.
 1. Sign in
 2. Sign up with FaceBook or Google
 3. Reset password
-4. Email confirmation with nodemailer
-5. User/Admin control pannel
+4. Admin/user panel
+5. Email confirmation with sendgrid
+6. Notification with toastify
