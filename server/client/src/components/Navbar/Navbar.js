@@ -13,7 +13,7 @@ const Navbar = ({ history }) => {
   return (
     <nav className="navbar bg-primary justify-content-between">
       <Link className="navbar-brand text-light" to="/">
-        MERN BOILERPLATE
+        MERN Boilerplate
         {/* <br />
         {JSON.stringify(match)}
         <br />
