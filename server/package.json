@@ -26,7 +26,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mongoose": "^5.8.7",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",

@@ -3,7 +3,7 @@ import React from 'react';
 const Home = () => {
   return (
     <div className="col-md-6 offset-md-3 text-center">
-      <h2 className="pt-4">MongoDB Express.js React.js Node.js</h2>
+      <h3 className="pt-4">MongoDB Express React Node</h3>
       <hr />
       <p className="lead">
         Login register system with account activation, forgot/reset password via

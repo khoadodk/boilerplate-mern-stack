@@ -94,7 +94,7 @@ const Signin = ({ history }) => {
   );
 
   return (
-    <div className="container w-50 pt-5">
+    <div className="container w-50 pt-4">
       <ToastContainer />
       {isAuth() ? <Redirect to="/" /> : null}
       {/* <h1 className="p-3 text-center">Log In</h1> */}

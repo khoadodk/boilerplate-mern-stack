@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const sgMail = require('@sendgrid/mail');
 const { OAuth2Client } = require('google-auth-library');
+const fetch = require('node-fetch');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 /* SIGN UP
@@ -18,6 +19,62 @@ where we grab that encoded jwt which contains user info to create the account
   if yes, generate token with expiry and sent to the client side
   the token is used to access protected routes
 */
+
+//Facebook Login. Use Graph API from facebook to get request coming from the frontend
+exports.facebookLogin = (req, res) => {
+  const { userID, accessToken } = req.body;
+
+  const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+
+  return (
+    fetch(url, {
+      method: 'GET'
+    })
+      .then(response => response.json())
+      // .then(response => console.log(response))
+      .then(response => {
+        const { email, name } = response;
+        User.findOne({ email }).exec((err, user) => {
+          if (user) {
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+              expiresIn: '7d'
+            });
+            const { _id, email, name, role } = user;
+            return res.json({
+              token,
+              user: { _id, email, name, role }
+            });
+          } else {
+            let password = email + process.env.JWT_SECRET;
+            user = new User({ name, email, password });
+            user.save((err, data) => {
+              if (err) {
+                // console.log('ERROR FACEBOOK LOGIN ON USER SAVE', err);
+                return res.status(400).json({
+                  error: 'Fail to sign up user with FaceBook.'
+                });
+              }
+              const token = jwt.sign(
+                { _id: data._id },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' }
+              );
+              const { _id, email, name, role } = data;
+              return res.json({
+                token,
+                user: { _id, email, name, role }
+              });
+            });
+          }
+        });
+      })
+      .catch(error => {
+        res.json({
+          error: 'Fail to Login with FaceBook. Please try again.'
+        });
+      })
+  );
+};
 
 //Google Login: https://github.com/googleapis/google-auth-library-nodejs#oauth2
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -49,7 +106,7 @@ exports.googleLogin = (req, res) => {
             user = new User({ name, email, password });
             user.save((err, data) => {
               if (err) {
-                console.log('ERROR GOOGLE LOGIN ON USER SAVE', err);
+                // console.log('ERROR GOOGLE LOGIN ON USER SAVE', err);
                 return res.status(400).json({
                   error: 'Fail to sign up with Google.'
                 });
