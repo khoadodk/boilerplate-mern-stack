@@ -8,7 +8,7 @@ const Home = () => {
       <p className="lead">
         Login register system with account activation, forgot/reset password via
         email, Facebook and Google authentication as well as private route for
-        Admin and User.
+        Admin and users.
       </p>
       <footer>Created by &copy; Khoa Do 2020</footer>
     </div>

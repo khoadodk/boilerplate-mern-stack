@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { authenticate, isAuth } from '../../utils/helpers';
 import { ToastContainer, toast } from 'react-toastify';
@@ -71,6 +71,10 @@ const Signin = () => {
       </div>
 
       <div>
+        <p>
+          Don't remember your password?
+          <Link to="/auth/password/forgot">&nbsp;Click here!</Link>
+        </p>
         <button className="btn btn-primary float-right" onClick={clickSubmit}>
           {buttonText}
         </button>

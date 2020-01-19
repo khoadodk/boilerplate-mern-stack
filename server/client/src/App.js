@@ -10,6 +10,8 @@ import PrivatePage from './components/PrivatePage/PrivatePage';
 import PrivateRoute from './utils/PrivateRoute';
 import AdminPage from './components/AdminPage/AdminPage';
 import AdminRoute from './utils/AdminRoute';
+import ForgotPage from './components/ForgotPage/ForgotPage';
+import ResetPage from './components/ResetPage/ResetPage';
 
 const App = () => {
   return (
@@ -23,6 +25,12 @@ const App = () => {
           <Route exact path="/auth/activate/:token" component={Activate} />
           <PrivateRoute exact path="/private" component={PrivatePage} />
           <AdminRoute exact path="/admin" component={AdminPage} />
+          <Route exact path="/auth/password/forgot" component={ForgotPage} />
+          <Route
+            exact
+            path="/auth/password/reset/:token"
+            component={ResetPage}
+          />
         </Switch>
       </Router>
     </>
