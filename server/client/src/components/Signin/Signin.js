@@ -5,7 +5,9 @@ import { authenticate, isAuth } from '../../utils/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const Signin = () => {
+import Google from '../GoogleLogin/GoogleLogin';
+
+const Signin = ({ history }) => {
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -44,6 +46,14 @@ const Signin = () => {
         setValues({ ...values, buttonText: 'Log in' });
         toast.error(error.response.data.error);
       });
+  };
+
+  const informParent = response => {
+    authenticate(response, () => {
+      isAuth() && isAuth().role === 'admin'
+        ? history.push('/admin')
+        : history.push('/private');
+    });
   };
 
   const signupForm = () => (
@@ -86,7 +96,11 @@ const Signin = () => {
     <div className="container w-50">
       <ToastContainer />
       {isAuth() ? <Redirect to="/" /> : null}
-      <h1 className="p-3 text-center">Log in</h1>
+      <h1 className="p-3 text-center">Log In</h1>
+      <div className="text-center">
+        <Google informParent={informParent} />
+      </div>
+
       {signupForm()}
     </div>
   );

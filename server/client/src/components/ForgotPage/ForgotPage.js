@@ -38,12 +38,15 @@ const ForgotPage = () => {
   const forgotPasswordForm = () => (
     <form>
       <div className="form-group">
-        <label className="text-muted">Email</label>
+        <label className="text-muted pb-2">
+          We'll send a link to your email to reset your password.
+        </label>
         <input
           onChange={handleChange}
           name="email"
           value={email}
           type="email"
+          placeholder="Email"
           className="form-control"
         />
       </div>

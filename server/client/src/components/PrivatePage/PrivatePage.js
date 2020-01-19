@@ -29,12 +29,12 @@ const PrivatePage = ({ history }) => {
       }
     })
       .then(response => {
-        console.log('PRIVATE PROFILE UPDATE', response);
+        // console.log('PRIVATE PROFILE UPDATE', response);
         const { role, name, email } = response.data;
         setValues({ ...values, role, name, email });
       })
       .catch(error => {
-        console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
+        // console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
         if (error.response.status === 401) {
           signout(() => {
             history.push('/');
@@ -62,14 +62,14 @@ const PrivatePage = ({ history }) => {
       data: { name, password }
     })
       .then(response => {
-        console.log('PRIVATE PROFILE UPDATE SUCCESS', response);
+        // console.log('PRIVATE PROFILE UPDATE SUCCESS', response);
         updateUser(response, () => {
           setValues({ ...values, buttonText: 'Submitted' });
           toast.success('Profile updated successfully');
         });
       })
       .catch(error => {
-        console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
+        // console.log('PRIVATE PROFILE UPDATE ERROR', error.response.data.error);
         setValues({ ...values, buttonText: 'Submit' });
         toast.error(error.response.data.error);
       });

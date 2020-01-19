@@ -18,7 +18,7 @@ const ResetPage = ({ match }) => {
     if (token) {
       setValues({ ...values, name, token });
     }
-  }, []);
+  }, [match.params.token, values]);
 
   const { name, token, newPassword, buttonText } = values;
 

@@ -7,7 +7,8 @@ const {
   accountActivation,
   signin,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  googleLogin
 } = require('../controllers/auth');
 
 //Validators
@@ -34,5 +35,8 @@ router.put(
   runValidation,
   resetPassword
 );
+
+//Google and FaceBook Log in
+router.post('/google-login', googleLogin);
 
 module.exports = router;
