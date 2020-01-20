@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 
 exports.read = (req, res) => {
   const userId = req.params.id;
