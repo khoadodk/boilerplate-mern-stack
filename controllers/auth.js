@@ -69,9 +69,12 @@ exports.facebookLogin = (req, res) => {
         });
       })
       .catch(error => {
-        res.json({
-          error: 'Fail to Login with FaceBook. Please try again.'
-        });
+        res.json(
+          {
+            error: 'Fail to Login with FaceBook. Please try again.'
+          },
+          error
+        );
       })
   );
 };
